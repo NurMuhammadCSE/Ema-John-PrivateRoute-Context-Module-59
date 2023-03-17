@@ -1,9 +1,10 @@
 import React from "react";
+import Button from "react-bootstrap/esm/Button";
 import "./Cart.css";
 
 const Cart = (props) => {
-  const { cart } = props;
-  console.log(cart);
+  const { cart, clearCart } = props;
+  // console.log(props.children);
 
   let total = 0;
   let shipping = 0;
@@ -27,6 +28,8 @@ const Cart = (props) => {
       <p>Total Shipping: ${shipping}</p>
       <p>Tax: {tax}</p>
       <h5>Grand Total: {grandTotal}</h5>
+      <Button className="btn btn warning m-3" onClick={clearCart}>Clear Cart</Button>
+      {props.children}
     </div>
   );
 };

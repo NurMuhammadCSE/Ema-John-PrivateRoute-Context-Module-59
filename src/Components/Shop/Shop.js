@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { Link, useLoaderData } from "react-router-dom";
 import { addToDb, getStoredCart } from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  const products = useLoaderData()
+  // const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
-  useEffect(() => {
-    // console.log("Products load before fetch");
-    fetch("products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        // console.log("Products Loaded")
-      });
-  }, []);
+  // useEffect(() => {
+  //   // console.log("Products load before fetch");
+  //   fetch("products.json")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setProducts(data);
+  //       // console.log("Products Loaded")
+  //     });
+  // }, []);
+
+
 
   useEffect(() => {
     // console.log("Local Storage first LINE", products);
@@ -57,6 +61,13 @@ const Shop = () => {
     addToDb(SelectedProduct.id);
   };
 
+  const clearCart = () => {
+    setCart([]);
+    addToDb();    
+    // window.location.reload();
+
+  }
+
   return (
     <div className="shop-container">
       <div className="product-container">
@@ -69,7 +80,11 @@ const Shop = () => {
         ))}
       </div>
       <div className="cart-container">
-        <Cart cart={cart}></Cart>
+        <Cart clearCart={clearCart} cart={cart}>
+          <Link to={'/orders'}>
+            <button>Review Order</button>
+          </Link>
+        </Cart>
       </div>
     </div>
   );
