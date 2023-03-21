@@ -4,8 +4,12 @@ import About from "./Components/About/About";
 import Inventory from "./Components/Inventory/Inventory";
 import Main from "./Components/Layout/Main";
 import { ProductsAndCartLoaders } from "./Components/loaders/ProductsAndCartLoaders";
+import Login from "./Components/Login/Login";
 import Orders from "./Components/Orders/Orders";
+import Shipping from "./Components/Shipping/Shipping";
 import Shop from "./Components/Shop/Shop";
+import SignUp from "./Components/SignUp/SignUp";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,8 +19,8 @@ function App() {
       children: [
         {
           path: "/",
-          loader: async() => fetch("products.json"),
-          element: <Shop></Shop>
+          loader: async () => fetch("products.json"),
+          element: <Shop></Shop>,
         },
         {
           path: "/orders",
@@ -24,15 +28,35 @@ function App() {
           //   return ("products.json");
           // },
           loader: ProductsAndCartLoaders,
-          element: <Orders></Orders>
+          element: (
+            <PrivateRoute>
+              <Orders></Orders>
+            </PrivateRoute>
+          ),
         },
         {
           path: "/about",
-          element: <About></About>
+          element: <About></About>,
         },
         {
           path: "/inventory",
-          element: <Inventory></Inventory>
+          element: (
+            <PrivateRoute>
+              <Inventory></Inventory>
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/login",
+          element: <Login></Login>,
+        },
+        {
+          path: "/shipping",
+          element: <PrivateRoute><Shipping></Shipping></PrivateRoute>,
+        },
+        {
+          path: "/signup",
+          element: <SignUp></SignUp>,
         },
       ],
     },
